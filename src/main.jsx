@@ -8,7 +8,9 @@ import store from "./store/store.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <BrowserRouter basename="/storytime-frontend/">
+        <App />
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>
 );
