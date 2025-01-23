@@ -7,5 +7,5 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  base: "/storytime-frontend",
+  base: "/storytime-frontend/",
 });
