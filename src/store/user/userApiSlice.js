@@ -17,7 +17,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getUserProfileAPI: builder.query({
+      query: () => ({
+        url: `${USER_ENDPOINT}/profile`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLoginApiMutation, useRegisterApiMutation } = userApiSlice;
+export const {
+  useLoginApiMutation,
+  useRegisterApiMutation,
+  useGetUserProfileAPIQuery,
+} = userApiSlice;

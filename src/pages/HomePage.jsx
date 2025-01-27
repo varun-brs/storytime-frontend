@@ -1,7 +1,10 @@
+import { useDispatch } from "react-redux";
 import ImageBanner from "../components/home/ImageBanner";
 import PopularStories from "../components/home/PopularStories";
 import ShowsOfWeek from "../components/home/ShowsOfWeek";
 import TopStories from "../components/home/TopStories";
+import { setUserProfile } from "../store/user/authSlice";
+import { useGetUserProfileAPIQuery } from "../store/user/userApiSlice";
 
 const popularStoryList = [
   {
@@ -89,6 +92,12 @@ const showsOfWeekList = [
 ];
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const { data } = useGetUserProfileAPIQuery();
+  console.log(data);
+  if (data) {
+    dispatch(setUserProfile({ ...data }));
+  }
   return (
     <div className="container mx-auto p-2">
       <ImageBanner />

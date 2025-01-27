@@ -5,6 +5,7 @@ import { Modal } from "react-responsive-modal";
 import * as Yup from "yup";
 import "react-responsive-modal/styles.css";
 import { useRegisterApiMutation } from "../store/user/userApiSlice";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -53,12 +54,14 @@ const RegisterPage = () => {
         last_name: values.last_name,
         email: values.email,
         password: values.password,
-      });
+      }).unwrap();
+      toast.success(response.message);
       resetForm();
       setSubmitting(false);
       navigate("/login");
     } catch (error) {
       console.log(error);
+      toast.error(error?.data?.message || error.error);
     }
   };
   return (

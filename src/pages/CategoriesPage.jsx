@@ -1,40 +1,50 @@
-const categories = [
-  {
-    _id: 1,
-    name: "Popular Stories Podcasts",
-    keywords: "popular stories podcasts",
-  },
-  {
-    _id: 2,
-    name: "Spooky Horror Podcasts",
-    keywords: "spooky mystery ghost",
-  },
-  {
-    _id: 3,
-    name: "Learn About Indian Mythology",
-    keywords: "indian mythology religious history",
-  },
-  {
-    _id: 4,
-    name: "Stories and Fairy Tales for Children",
-    keywords: "kids stories children stories",
-  },
-  {
-    _id: 5,
-    name: "Inspiring Stories from Real People",
-    keywords: "motivating exciting interviews podcasts",
-  },
-  { _id: 6, name: "Podcasts and Shows", keywords: "podcasts shows" },
-];
+import LoadingSpinner from "../components/LoadingSpinner";
+import { useGetCategoriesQuery } from "../store/category/categoryApiSlice";
+import { useGetLanguagesQuery } from "../store/language/languageApiSlice";
 
-const languages = [
-  { _id: 1, code: "ta", name: "Tamil" },
-  { _id: 2, code: "en", name: "English" },
-  { _id: 3, code: "te", name: "Telugu" },
-  { _id: 4, code: "hi", name: "Hindi" },
-];
+// const categories = [
+//   {
+//     _id: 1,
+//     name: "Popular Stories Podcasts",
+//     keywords: "popular stories podcasts",
+//   },
+//   {
+//     _id: 2,
+//     name: "Spooky Horror Podcasts",
+//     keywords: "spooky mystery ghost",
+//   },
+//   {
+//     _id: 3,
+//     name: "Learn About Indian Mythology",
+//     keywords: "indian mythology religious history",
+//   },
+//   {
+//     _id: 4,
+//     name: "Stories and Fairy Tales for Children",
+//     keywords: "kids stories children stories",
+//   },
+//   {
+//     _id: 5,
+//     name: "Inspiring Stories from Real People",
+//     keywords: "motivating exciting interviews podcasts",
+//   },
+//   { _id: 6, name: "Podcasts and Shows", keywords: "podcasts shows" },
+// ];
+
+// const languages = [
+//   { _id: 1, code: "ta", name: "Tamil" },
+//   { _id: 2, code: "en", name: "English" },
+//   { _id: 3, code: "te", name: "Telugu" },
+//   { _id: 4, code: "hi", name: "Hindi" },
+// ];
 
 const CategoriesPage = () => {
+  const { data: categoriesData, isLoading, error } = useGetCategoriesQuery();
+  const {
+    data: languages,
+    isLoading: isLanguagesLoading,
+    error: languagesError,
+  } = useGetLanguagesQuery();
   return (
     <>
       <div style={{ backgroundColor: "#443280" }}>
@@ -48,27 +58,34 @@ const CategoriesPage = () => {
               </header>
 
               <div className="flex mb-10">
-                {languages.map((language) => (
-                  <div key={language._id}>
-                    <button className="flex bg-white text-black px-3 py-1 rounded-full mr-3">
-                      {language.name}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6 ml-3"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
+                {isLanguagesLoading ? (
+                  <LoadingSpinner />
+                ) : languagesError ? (
+                  <p>Unable to load languages. Please try again later</p>
+                ) : (
+                  languages &&
+                  languages.map((language) => (
+                    <div key={language._id}>
+                      <button className="flex bg-white text-black px-3 py-1 rounded-full mr-3">
+                        {language.name}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6 ml-3"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  ))
+                )}
               </div>
 
               <header className="flex items-center justify-between mb-4">
@@ -78,7 +95,7 @@ const CategoriesPage = () => {
               </header>
 
               <div className="grid grid-cols-4 gap-x-4 gap-y-4">
-                {categories.map((category, index) => {
+                {/* {categories.map((category, index) => {
                   return (
                     <div
                       key={category._id}
@@ -89,7 +106,39 @@ const CategoriesPage = () => {
                       <button className="text-left">{category.name}</button>
                     </div>
                   );
-                })}
+                })} */}
+                {
+                  isLoading ? (
+                    <LoadingSpinner />
+                  ) : error ? (
+                    <p>Unable to load categories. Please try again later.</p>
+                  ) : (
+                    categoriesData.map((category, index) => (
+                      <div
+                        key={category._id}
+                        className={`p-6 rounded-xl hover:bg-active group active h-64 text-3xl flex items-end siraledge category-${
+                          index + 1
+                        }`}
+                      >
+                        <button className="text-left">
+                          {category.category}
+                        </button>
+                      </div>
+                    ))
+                  )
+
+                  //  {categories.map((category) => (
+                  //   <div
+                  //     key={category._id}
+                  //     className={`p-6 rounded-xl hover:bg-active group active h-64 text-3xl flex items-end siraledge category-${
+                  //      i<9 ? i : i = 1, i++
+                  //     }`}
+                  //     // onClick={() => categoryHandler(category.category)}
+                  //   >
+                  //     <button className="text-left">{category.category}</button>
+                  //   </div>
+                  // ))}
+                }
               </div>
             </div>
           </section>

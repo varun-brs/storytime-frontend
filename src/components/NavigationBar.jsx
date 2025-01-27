@@ -1,14 +1,15 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../App.css";
 import { logout } from "../store/user/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavigationBar = () => {
+  const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = () => {
     dispatch(logout());
-    navigate("login", { replace: true });
+    navigate("/login", { replace: true });
   };
   return (
     <nav className="bg-brandColor fixed w-full mt-0 top-0 z-10 px-5">
@@ -113,7 +114,9 @@ const NavigationBar = () => {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <ul className="menu">
               <li className="dropdown dropdown-6 relative">
-                <p className="text-white pr-2">Welcome back user</p>
+                {userData && (
+                  <p className="text-white pr-2">{userData.first_name}</p>
+                )}
 
                 <NavLink to="/profile" className="flex items-center">
                   Profile

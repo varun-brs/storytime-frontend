@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useLoginApiMutation } from "../store/user/userApiSlice";
 import { login } from "../store/user/authSlice";
+import { toast } from "react-toastify";
 
 const initialValues = {
   email: "",
@@ -46,10 +47,13 @@ const LoginPage = () => {
         email: values.email,
         password: values.password,
       }).unwrap();
+      toast.success("You logged in successfully");
+
       dispatch(login({ ...response }));
       navigate("/home");
     } catch (error) {
       console.log(error);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
